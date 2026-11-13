@@ -36,6 +36,7 @@ Os arquivos necessários à execução e à reprodução dos testes não acompan
 | **Modelos e checkpoints** (SPSL, Effort, YuNet e DF-Arena-1B) | [Baixar modelos e checkpoints](https://drive.google.com/file/d/1Kai0aXR3SepXI2NjRiNBgrdGnmbrdlKH/view?usp=sharing) |
 | **Datasets utilizados** (vídeos de avaliação) | [Baixar datasets](https://drive.google.com/file/d/1UQtI1MqClK-_x3_PU-o5SaxSuim7StkC/view?usp=sharing) |
 
+
 **Depois de baixar:**
 
 1. Extraia os arquivos dos modelos, caso estejam compactados, para a pasta **`V3_Final/models/`**, respeitando as subpastas `audio/` e `visual/` e os nomes originais dos checkpoints.
