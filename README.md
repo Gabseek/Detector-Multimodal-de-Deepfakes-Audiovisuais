@@ -90,7 +90,6 @@ Após baixar e extrair os modelos e datasets do Google Drive, a organização es
 
 ```text
 V3_Final/
-├── README.md
 ├── requirements.txt
 ├── main.py
 ├── pipeline/
