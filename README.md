@@ -33,9 +33,8 @@ Os arquivos necessários à execução e à reprodução dos testes não acompan
 
 | Conteúdo | Link para download |
 |---|---|
-| **Modelos e checkpoints** (SPSL, Effort, YuNet e DF-Arena-1B) | [Baixar modelos e checkpoints](https://drive.google.com/file/d/1Kai0aXR3SepXI2NjRiNBgrdGnmbrdlKH/view?usp=sharing) |
+| **Modelos e checkpoints** (SPSL, Effort, YuNet e DF-Arena-1B) | [Baixar modelos e checkpoints](https://drive.google.com/file/d/1mTZJ4K-nbHCa2LyYHNjUY0fptP4jwltZ/view?usp=sharing) |
 | **Datasets utilizados** (vídeos de avaliação) | [Baixar datasets](https://drive.google.com/file/d/1UQtI1MqClK-_x3_PU-o5SaxSuim7StkC/view?usp=sharing) |
-
 
 **Depois de baixar:**
 
@@ -106,6 +105,7 @@ V3_Final/
 │       ├── spsl_best.pth
 │       ├── face_detection_yunet_2023mar.onnx
 │       ├── effort_clip_L14_trainOn_FaceForensic.pth
+│       └── huggingface/  # Arquivos auxiliares/cache do CLIP
 ├── input/
 │   ├── REAL/
 │   │   └── en/
