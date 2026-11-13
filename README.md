@@ -19,8 +19,8 @@ A aplicação oferece execução em lote, perfis de uso de CPU e retomada de pro
 
 ## Requisitos
 
-- **Windows 10/11** ou **Linux** (exemplos abaixo para Ubuntu 24.04 e Debian 12).
-- **Python 3.11 ou 3.12**.
+- **Windows 10/11** ou **Linux** (comandos Linux testáveis como referência para Ubuntu 24.04).
+- **Python 3.12.x (obrigatório).** Outras versões de Python não foram validadas para esta aplicação.
 - **FFmpeg e FFprobe** disponíveis no sistema.
 - Internet para instalar bibliotecas e, se necessário, carregar arquivos auxiliares de CLIP/RapidOCR na primeira execução.
 - Espaço em disco e memória RAM suficientes para os modelos, bibliotecas e vídeos (a instalação pode ocupar vários gigabytes).
@@ -35,8 +35,6 @@ Os arquivos necessários à execução e à reprodução dos testes não acompan
 |---|---|
 | **Modelos e checkpoints** (SPSL, Effort, YuNet e DF-Arena-1B) | [Baixar modelos e checkpoints](https://drive.google.com/file/d/1Kai0aXR3SepXI2NjRiNBgrdGnmbrdlKH/view?usp=sharing) |
 | **Datasets utilizados** (vídeos de avaliação) | [Baixar datasets](https://drive.google.com/file/d/1UQtI1MqClK-_x3_PU-o5SaxSuim7StkC/view?usp=sharing) |
-
-> **Acesso:** confira se os links do Google Drive estão compartilhados como **“Qualquer pessoa com o link — Leitor”** para permitir o download.
 
 **Depois de baixar:**
 
@@ -53,30 +51,30 @@ Abra a pasta **`V3_Final/`** no **VS Code** e abra seu terminal integrado (`Term
 ### Windows — PowerShell
 
 ```powershell
-winget install --id Python.Python.3.11 --exact --accept-package-agreements --accept-source-agreements
+winget install --id Python.Python.3.12 --exact --accept-package-agreements --accept-source-agreements
 winget install --id Gyan.FFmpeg --exact --accept-package-agreements --accept-source-agreements
-py -3.11 -m venv .venv
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install torch --index-url https://download.pytorch.org/whl/cpu
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe main.py
 ```
 
-Se Python ou FFmpeg acabarem de ser instalados, pode ser necessário **reabrir o terminal do VS Code** para que os comandos sejam reconhecidos. Nesse caso, execute novamente apenas as linhas a partir de `py -3.11 -m venv .venv`. Os comandos usam o PyTorch para **CPU**.
+Se Python ou FFmpeg acabarem de ser instalados, pode ser necessário **reabrir o terminal do VS Code** para que os comandos sejam reconhecidos. Nesse caso, execute novamente apenas as linhas a partir de `py -3.12 -m venv .venv`. Os comandos usam o PyTorch para **CPU**.
 
-### Linux — Ubuntu 24.04 / Debian 12
+### Linux — Ubuntu 24.04
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3 python3-venv python3-pip ffmpeg libsndfile1
-python3 -m venv .venv
+sudo apt-get install -y python3.12 python3.12-venv python3-pip ffmpeg libsndfile1
+python3.12 -m venv .venv
 ./.venv/bin/python -m pip install --upgrade pip
 ./.venv/bin/python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
 ./.venv/bin/python -m pip install -r requirements.txt
 ./.venv/bin/python main.py
 ```
 
-Antes da instalação, confira se `python3 --version` mostra Python **3.11 ou 3.12**. Em outras distribuições Linux, os nomes dos pacotes de sistema podem ser diferentes.
+O projeto exige **Python 3.12**. Em outras distribuições Linux, instale o Python 3.12 e o módulo `venv` pelo gerenciador de pacotes apropriado antes de executar os demais comandos. A versão padrão do Python no Debian 12 é 3.11 e, portanto, não atende a este requisito.
 
 ### Bibliotecas Python
 
@@ -90,6 +88,7 @@ Após baixar e extrair os modelos e datasets do Google Drive, a organização es
 
 ```text
 V3_Final/
+├── README.md
 ├── requirements.txt
 ├── main.py
 ├── pipeline/
@@ -106,7 +105,6 @@ V3_Final/
 │       ├── spsl_best.pth
 │       ├── face_detection_yunet_2023mar.onnx
 │       ├── effort_clip_L14_trainOn_FaceForensic.pth
-│       └── huggingface/  # Arquivos auxiliares/cache do CLIP
 ├── input/
 │   ├── REAL/
 │   │   └── en/
@@ -156,15 +154,31 @@ Quando a entrada possui pastas com rótulos `REAL` e `FAKE`, o relatório inclui
 
 | Problema | O que verificar |
 |---|---|
-| Python não encontrado | Instale Python 3.11/3.12 e reabra o terminal. |
+| Python não encontrado ou versão incompatível | Instale **Python 3.12** e reabra o terminal. No Windows, confira `py -3.12 --version`; no Linux, `python3.12 --version`. |
 | `ffmpeg` ou `ffprobe` não encontrado | Verifique `ffmpeg -version` e `ffprobe -version` em um terminal novo. |
 | `ModuleNotFoundError` | Confirme que o ambiente `.venv` foi criado e que `requirements.txt` foi instalado. |
 | Checkpoint ausente | Baixe o pacote de modelos pelo link do Google Drive e confira o nome e o caminho do arquivo em `models/`. |
+| Erro de caminho muito longo ao preparar o CLIP (Windows) | Ao baixar/extrair a *snapshot* do CLIP, o cache pode criar pastas com nomes extensos. Use um diretório curto para o projeto e, se necessário, habilite caminhos longos no Windows conforme as instruções abaixo. |
 | Falha na inicialização do CLIP ou OCR | Confira a conexão à internet e a disponibilidade dos arquivos de cache necessários. |
 | Quadros não salvos | Use um caminho sem acentos/caracteres especiais e confirme permissão de gravação. |
 | Falta de memória | Experimente o perfil econômico ou um número menor de vídeos. |
 | Dataset não encontrado | Baixe o conjunto pelo link do Google Drive e extraia os vídeos para `input/`, sem criar uma pasta `input/input/`. |
 | Resultados diferentes dos experimentos | Confira os modelos, versões das bibliotecas, parâmetros, modalidade e arquivos de entrada. |
+
+
+### Erro de caminho muito longo no Windows (snapshot do CLIP)
+
+Na primeira execução, o CLIP pode precisar obter arquivos auxiliares e criar uma pasta de *snapshot* com um caminho muito extenso. Se surgir um erro como `FileNotFoundError`, `OSError` ou uma mensagem sobre nome/caminho de arquivo longo, tente primeiro colocar o projeto em um diretório mais curto, por exemplo `C:\TCC\V3_Final`, e executar novamente.
+
+Se o problema continuar, o Windows 10 (versão 1607 ou posterior) e o Windows 11 permitem habilitar o suporte a caminhos longos:
+
+1. Pressione **Win + R**, digite `regedit` e abra o **Editor do Registro** com permissão de administrador.
+2. Acesse `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
+3. Localize `LongPathsEnabled` (tipo **DWORD (32 bits)**). Se não existir, crie esse valor.
+4. Defina **Dados do valor** como `1` (habilitado).
+5. Reinicie o computador ou, no mínimo, os aplicativos envolvidos e tente novamente.
+
+**Atenção:** alterar o Registro exige permissão de administrador. Faça essa mudança apenas se necessário. A opção não remove os limites de todos os programas: cada aplicativo também precisa oferecer suporte a caminhos longos. Consulte a [documentação oficial da Microsoft](https://learn.microsoft.com/pt-br/windows/win32/fileio/maximum-file-path-limitation).
 
 ## Histórico das versões
 
