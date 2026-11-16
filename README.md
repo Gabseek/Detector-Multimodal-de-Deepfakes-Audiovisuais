@@ -66,8 +66,11 @@ Se Python ou FFmpeg acabarem de ser instalados, pode ser necessário **reabrir o
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3.12 python3.12-venv python3-pip ffmpeg libsndfile1
-python3.12 -m venv .venv
+sudo apt-get install -y pipx ffmpeg libsndfile1
+pipx install uv
+~/.local/bin/uv python install 3.12
+~/.local/bin/uv venv --python 3.12 --seed .venv
+./.venv/bin/python --version
 ./.venv/bin/python -m pip install --upgrade pip
 ./.venv/bin/python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
 ./.venv/bin/python -m pip install -r requirements.txt
